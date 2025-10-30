@@ -20,12 +20,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         Button btn = findViewById(R.id.button);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 int num2 = Integer.parseInt(input2.getText().toString());
                 int sum = num1 + num2;
                 textView.setText(String.valueOf(sum));
+
             }
         });
     }
