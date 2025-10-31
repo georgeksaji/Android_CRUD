@@ -15,12 +15,18 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_activity);
 
-        Button btn = findViewById(R.id.button2);
+        Button btninsert = findViewById(R.id.button2);
+        Button btnupdate = findViewById(R.id.button4);
 
-        btn.setOnClickListener(v->
+        btninsert.setOnClickListener(v->
         {
             Intent int1 = new Intent(HomeActivity.this, Create.class);
             startActivity(int1);
+        });
+
+        btnupdate.setOnClickListener(v->{
+            Intent int2 = new Intent(HomeActivity.this,Update.class);
+            startActivity(int2);
         });
     }
 }

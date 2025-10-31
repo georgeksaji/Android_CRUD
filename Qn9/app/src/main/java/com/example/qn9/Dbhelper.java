@@ -2,6 +2,7 @@ package com.example.qn9;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -44,13 +45,21 @@ public class Dbhelper extends SQLiteOpenHelper {
         }
         return false;
     }
-
     public boolean updateStudent(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("Name", name);
         int result = db.update("Student", cv, "ID = ?", new String[]{String.valueOf(id)});
         db.close();
-        return result > 0;
+        if(result>0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public Cursor getData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM Student", null);
     }
 }

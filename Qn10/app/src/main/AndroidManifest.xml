@@ -10,15 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Qn9">
-
-        <activity
-            android:name=".HomeActivity"/>
-        <activity
-            android:name=".Create"/>
-        <activity
-            android:name=".Update"/>
-
+        android:theme="@style/Theme.Qn10">
         <activity
             android:name=".MainActivity"
             android:exported="true">
