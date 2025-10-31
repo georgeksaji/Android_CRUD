@@ -1,0 +1,250 @@
+//sum of numbers
+
+        Button b1 = findViewById(R.id.button);
+
+        b1.setOnClickListener(v -> {
+            EditText num1 = findViewById(R.id.editTextText);
+            EditText num2 = findViewById(R.id.editTextText2);
+            int n1 = Integer.parseInt(num1.getText().toString());
+            int n2 = Integer.parseInt(num2.getText().toString());
+            int sum = n1 + n2;
+            TextView textView = findViewById(R.id.textView);
+            textView.setText("Result: "+ sum);
+            textView.setText(String.valueOf(sum));
+        });
+
+
+
+// change background colour(toogle)
+
+ 	boolean isBlue = false;  //JUST AFTER MAINCLASS ACTIVITY 
+
+        Button btn = findViewById(R.id.button);
+        ConstraintLayout layout   = findViewById(R.id.main);
+
+        btn.setOnClickListener(v->
+        {
+            if(isBlue)
+            {
+                layout.setBackgroundColor(Color.BLUE);
+                isBlue = false;
+            }
+            else
+            {
+                layout.setBackgroundColor(Color.YELLOW);
+                isBlue = true;
+            }
+        });
+
+
+
+//change text color
+
+	boolean trigger = true;  //JUST AFTER MAINCLASS ACTIVITY
+
+        Button btn = findViewById(R.id.button);
+        TextView textView = findViewById(R.id.textView2);
+
+        btn.setOnClickListener(v->{
+            if(trigger)
+            {
+                textView.setTextColor(Color.BLUE);
+                trigger = false;
+            }
+            else
+            {
+                textView.setTextColor(Color.GREEN);
+                trigger = true;
+            
+        });
+
+
+//toast alert
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(v->
+        {
+            Toast.makeText(this, "This is a toast alert", Toast.LENGTH_LONG).show();
+        });
+
+
+//Dialogue Box
+        Button button2 = findViewById(R.id.alert);
+
+        button2.setOnClickListener(v->
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("Alert")
+                    .setMessage("This is a alert")
+                    .setPositiveButton("Ok",(d,w)->{
+                        Toast.makeText(this, "You Clicked Ok", Toast.LENGTH_SHORT).show();})
+                    .setNegativeButton("Cancel",(d,w)->{
+                        Toast.makeText(this, "You selected Cancel", Toast.LENGTH_SHORT).show();
+                    }).show();
+        });
+
+
+//new Intent 
+
+--manifest file register the intent 
+<activity
+            android:name=".HomeActivity"/>
+
+--create new xml and new java and fill details
+
+        Button btn = findViewById(R.id.button);
+
+        btn.setOnClickListener(v->
+        {
+                Intent intent  = new Intent(MainActivity.this,HomeActivity.class);
+                startActivity(intent);
+                finish();
+        });
+
+
+//    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:progress="0"
+        android:max="100"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+package com.example.qn9;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Button;
+import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    ProgressBar progressBar;
+    Button buttonStart;
+    int progressStatus = 0;
+    Handler handler = new Handler();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        progressBar = findViewById(R.id.progressBar);
+        buttonStart = findViewById(R.id.buttonStart);
+
+        buttonStart.setOnClickListener(v -> {
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            progressStatus = 0;
+
+            // Run progress in a background thread
+            new Thread(() -> {
+                while (progressStatus < 100) {
+                    progressStatus += 1;
+                    try {
+                        Thread.sleep(50); // simulate work (50ms per step)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Update progress on the UI thread
+                    handler.post(() -> progressBar.setProgress(progressStatus));
+                }
+            }).start();
+        });
+    }
+}
+
+
+
+
+//flashlight
+--manifest
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+package com.example.qn9;
+
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    boolean isOn = false;          // keeps track of flashlight state
+    CameraManager cameraManager;   // helps control the phone’s camera system
+    String cameraId;               // identifies which camera to use (usually the back one)
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button btn = findViewById(R.id.button);
+        cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+
+        btn.setOnClickListener(v -> {
+            try {
+                if (!isOn) {
+                    cameraId = cameraManager.getCameraIdList()[0]; // use the back camera
+                    cameraManager.setTorchMode(cameraId, true);    // turn flashlight ON
+                    btn.setText("Turn OFF");
+                    isOn = true;
+                } else {
+                    cameraManager.setTorchMode(cameraId, false);   // turn flashlight OFF
+                    btn.setText("Turn ON");
+                    isOn = false;
+                }
+            } catch (CameraAccessException e) {
+                // ignored for simplicity
+            }
+        });
+    }
+}
+
+
+//video==
+
+        VideoView videoView = findViewById(R.id.videoView);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.newvideo;
+        Uri uri = Uri.parse(videoPath);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+//audio
+MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.newvideo);
+mediaPlayer.start();
+
+
+//actionbar
+--themes.xml
+<style name="Base.Theme.Menu" parent="Theme.Material3.DayNight.NoActionBar">
+ to actionbar
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menus, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.action_about) {
+            Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.action_exit) {
+            finish();
+        }
+        return true;
+    }
