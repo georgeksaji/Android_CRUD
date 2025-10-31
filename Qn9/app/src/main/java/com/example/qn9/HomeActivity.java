@@ -17,6 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
         Button btninsert = findViewById(R.id.button2);
         Button btnupdate = findViewById(R.id.button4);
+        Button btnread = findViewById(R.id.button7);
 
         btninsert.setOnClickListener(v->
         {
@@ -27,6 +28,12 @@ public class HomeActivity extends AppCompatActivity {
         btnupdate.setOnClickListener(v->{
             Intent int2 = new Intent(HomeActivity.this,Update.class);
             startActivity(int2);
+        });
+
+        btnread.setOnClickListener(v->
+        {
+            Intent int3 = new Intent(HomeActivity.this,List.class);
+            startActivity(int3);
         });
     }
 }

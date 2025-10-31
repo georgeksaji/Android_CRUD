@@ -18,6 +18,8 @@
             android:name=".Create"/>
         <activity
             android:name=".Update"/>
+        <activity
+            android:name=".List"/>
 
         <activity
             android:name=".MainActivity"

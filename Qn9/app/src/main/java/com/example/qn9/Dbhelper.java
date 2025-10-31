@@ -58,8 +58,28 @@ public class Dbhelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public Cursor getData() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM Student", null);
+    public boolean deleteStudent(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete("Student", "ID = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return result > 0;
     }
+
+    public String readData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Student", null);
+
+        if (cursor.getCount() == 0) {
+            return "No Data";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while (cursor.moveToNext()) {
+            sb.append(cursor.getInt(0)).append(", ").append(cursor.getString(1)).append("\n");
+        }
+        cursor.close();
+        db.close();
+        return sb.toString();
+    }
+
 }
